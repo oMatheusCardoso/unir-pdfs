@@ -2,6 +2,8 @@ import PyPDF2
 import os
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
+import webbrowser
+from PIL import Image, ImageTk
 
 lista_arquivos = []
 
@@ -71,43 +73,56 @@ def unir_pdfs():
     merger.close()
     messagebox.showinfo("Sucesso", f"PDFs unidos com sucesso em: {caminho_saida}")
 
+def abrir_link(event=None):
+    webbrowser.open('https://github.com/oMatheusCardoso')
+
 # Configuração da janela Tkinter
 janela = tk.Tk()
 janela.title("Unir PDFs")
-janela.geometry("600x700")
+janela.geometry("600x850")
+
+imagem = Image.open('Avatar_sem_fundo.png')
+logo_xtheeuz = ImageTk.PhotoImage(imagem)
+
+imagem_logo = tk.Label(janela, image=logo_xtheeuz)
+imagem_logo.grid(column=0, row=0, padx=10, pady=10, sticky='ew')
+
+link_label = tk.Label(janela, text='>> GitHub/oMatheusCardoso <<', fg='green', cursor='hand2', font=("Arial", 10, "underline"))
+link_label.bind('<Button-1>', abrir_link)
+link_label.grid(column=0, row=1, padx=10, pady=10)
 
 
 texto_orientacao = tk.Label(janela, text="Selecione a pasta com os arquivos .pdf para união.")
-texto_orientacao.grid(column=0, row=0, padx=10, pady=10, sticky='ew')
+texto_orientacao.grid(column=0, row=2, padx=10, pady=10, sticky='ew')
 
 
 botao_selecionar = tk.Button(janela, text="Selecionar Pasta", command=selecionar_pasta)
-botao_selecionar.grid(column=0, row=1, padx=10, pady=10)
+botao_selecionar.grid(column=0, row=3, padx=10, pady=10)
 
 pasta_selecionada = tk.Label(janela, text="")
-pasta_selecionada.grid(column=0, row=2, padx=10, pady=10, sticky='ew')
+pasta_selecionada.grid(column=0, row=4, padx=10, pady=10, sticky='ew')
 
 texto_ordem = tk.Label(janela, text="Selecione a ordem de união dos PDFs")
-texto_ordem.grid(column=0, row=3, padx=10, pady=10, sticky='ew')
+texto_ordem.grid(column=0, row=5, padx=10, pady=10, sticky='ew')
 
 opcoes_ordem = tk.StringVar(value="Nome")
 menu_ordem = tk.OptionMenu(janela, opcoes_ordem, 'Nome', 'Data de Modificação', command=lambda _: atualizar_lista())
-menu_ordem.grid(column=0, row=4, padx=10, pady=10)
+menu_ordem.grid(column=0, row=6, padx=10, pady=10)
 
 texto_nome_arquivo = tk.Label(janela, text="Digite o nome do arquivo final:")
-texto_nome_arquivo.grid(column=0, row=5, padx=10, pady=10, sticky='ew')
+texto_nome_arquivo.grid(column=0, row=7, padx=10, pady=10, sticky='ew')
 
 entrada_nome_arquivo = tk.Entry(janela, width=50)
-entrada_nome_arquivo.grid(column=0, row=6, padx=10, pady=10)
+entrada_nome_arquivo.grid(column=0, row=8, padx=10, pady=10)
 
 botao_unir = tk.Button(janela, text="Unir PDFs", command=unir_pdfs)
-botao_unir.grid(column=0, row=7, padx=10, pady=10)
+botao_unir.grid(column=0, row=9, padx=10, pady=10)
 
 lista_arquivos_pdf = tk.Listbox(janela, height=10, selectmode=tk.SINGLE)
-lista_arquivos_pdf.grid(column=0, row=8, padx=10, pady=5, sticky='ew')
+lista_arquivos_pdf.grid(column=0, row=10, padx=10, pady=5, sticky='ew')
 
 barra_progresso = ttk.Progressbar(janela, orient='horizontal', length=400, mode='determinate')
-barra_progresso.grid(column=0, row=9, padx=10, pady=10, sticky="ew")
+barra_progresso.grid(column=0, row=11, padx=10, pady=10, sticky="ew")
 
 janela.columnconfigure(0, weight=1)
 janela.mainloop()
